@@ -1,0 +1,24 @@
+<div class="home-container">
+  <header>
+    <button class="sesion" (click)="onLogout()">Cerrar sesión</button>
+  </header>
+
+  <section class="search">
+    <input #searchBox type="text" placeholder="Buscar película..." />
+    <button class="buscar" (click)="search(searchBox.value)">Buscar</button>
+  </section>
+
+  <section class="results" *ngIf="movies.length > 0">
+    <div class="pelis" *ngFor="let movie of movies" class="movie-card">
+      <h3>{{ movie.title }}</h3>
+      <button class="resena" (click)="irAResena(movie)">Reseñar</button>
+
+      <p>{{ movie.overview }}</p>
+      <img
+        *ngIf="movie.poster_path"
+        [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+        alt="{{ movie.title }}"
+      />
+    </div>
+  </section>
+</div>

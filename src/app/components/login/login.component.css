@@ -1,0 +1,63 @@
+h1{
+    text-align: center;
+    color: #0d47a1;
+    font-size: 4rem;;
+}
+
+h2{
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 2rem;
+    color:#bbdefb;
+}
+
+label{
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #bbdefb;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.5px;
+    text-align: center;
+}
+
+button{
+    display: block;
+    margin: 0 auto;
+    background-color: #000;
+    color:white;
+    border-color:#fff;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    
+
+}
+
+button:hover{
+    background-color: #333;
+}
+
+input{
+  display: block;
+  width: 90%;
+  height: 25px;;
+  margin: 0 auto;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.tarjeta {
+  background-color: #0d47a1;
+  border-radius: 12px;
+ 
+  
+  width: 80%;
+  max-width: 400px;
+  margin:0 auto;
+  display: flex;
+  flex-direction: column;
+  
+}
