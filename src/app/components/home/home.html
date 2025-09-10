@@ -7,9 +7,6 @@
     </div>
   </header>
 
-
-
-
   <section class="search">
     <input type="text" [(ngModel)]="searchText" (keyup.enter)="unifiedSearch()" placeholder="Buscar..." />
     <label>
@@ -25,7 +22,13 @@
     <div class="pelis" *ngFor="let movie of movies" class="movie-card">
       <h3>{{ movie.title }}</h3>
       <button class="resenar" (click)="irAResena(movie)">Comentar</button>
-      <p>{{ movie.overview }}</p>
+      <p *ngIf="movie.overview; else sinSinopsis"><strong>Sinopsis:
+      </strong>{{ movie.overview }}</p>
+
+      <ng-template #sinSinopsis>
+        <p><em>No hay sinopsis disponible.</em></p>
+      </ng-template>
+
       <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
         alt="{{ movie.title }}" />
     </div>
@@ -42,9 +45,10 @@
 
       <p *ngIf="book.volumeInfo.description; else sinDescripcion"><strong>Descripción:</strong> {{
         book.volumeInfo?.description }}</p>
+
       <ng-template #sinDescripcion>
         <p><em>No hay descripción disponible.</em></p>
-      </ng-template>
+      </ng-template>      
 
       <p><strong>Fecha de publicación: </strong> <small>{{ book.volumeInfo?.publishedDate }}</small></p>
       <p><a *ngIf="book.volumeInfo?.previewLink" [href]="book.volumeInfo.previewLink" target="_blank">
@@ -52,6 +56,5 @@
         </a></p>
     </div>
   </section>
-
-
+  
 </div>

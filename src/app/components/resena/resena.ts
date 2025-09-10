@@ -49,11 +49,9 @@ export class Resena {
     textarea.style.height = textarea.scrollHeight + 'px'; // set to content height
   }
 
-
   irAHome() {
     this.router.navigate(['/home']);
   }
-
 
   guardarResena() {
     if (!this.authService.userId) {
@@ -95,6 +93,8 @@ export class Resena {
       console.log('Reseña guardada con ID:', docRef.id);
       this.message = '¡Reseña enviada correctamente!';
       this.resenaForm.reset({ calificacion: 5 });
+      this.router.navigate(['/home']);
+
     }).catch(error => {
       console.error('Error al guardar reseña:', error);
       this.message = 'Error al guardar la reseña.';

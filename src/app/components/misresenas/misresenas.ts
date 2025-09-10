@@ -30,19 +30,20 @@ export class Misresenas implements OnInit {
     const resenasRef = collection(this.firestore, 'resenas');
     const q = query(resenasRef, where('usuarioId', '==', user.uid));
     this.resenas$ = collectionData(q, { idField: 'id' }) as Observable<any[]>;
+    this.resenas$.subscribe(data => {
+      this.resenas = data;
+    });
   }
 
   setTipoResena(tipo: 'libro' | 'pelicula') {
-    
-      if (tipo === 'libro') {
-        this.mostrarLibros = true;
-        this.mostrarPeliculas = false;
-      } else {
-        this.mostrarLibros = false;
-        this.mostrarPeliculas = true;
-      }
 
-    
+    if (tipo === 'libro') {
+      this.mostrarLibros = true;
+      this.mostrarPeliculas = false;
+    } else {
+      this.mostrarLibros = false;
+      this.mostrarPeliculas = true;
+    }
   }
 
   constructor(private router: Router) { }
@@ -73,4 +74,13 @@ export class Misresenas implements OnInit {
     const resenaRef = doc(this.firestore, 'resenas', id);
     deleteDoc(resenaRef);
   }
+  getCantidadPorTipo(tipo: string): number {
+
+
+    return this.resenas.filter(r => r.tipo === tipo).length;
+  }
+  ajustarAltura(textarea: HTMLTextAreaElement): void {
+  textarea.style.height = 'auto'; // reset
+  textarea.style.height = textarea.scrollHeight + 'px'; // expand
+}
 }

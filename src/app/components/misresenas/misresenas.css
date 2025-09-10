@@ -9,7 +9,7 @@ h2 {
   font-size: 1.4rem;
 }
 
-.volver {
+.volver, .edit {
   display: inline-block;
   margin-bottom: 1rem;
   padding: .5rem .9rem;

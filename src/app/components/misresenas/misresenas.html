@@ -1,6 +1,6 @@
-
 <h2>Mis comentarios</h2>
 <button class="volver" (click)="irAHome()">Volver</button>
+
 <!-- Selector de tipo de reseña -->
 <div class="filtros">
   <label>
@@ -16,21 +16,25 @@
 <!-- Lista de reseñas -->
 <div class="resenas" *ngIf="resenas$ | async as resenas">
   <ng-container *ngIf="resenas.length > 0; else sinResenas">
+    <h3 *ngIf="tipoResena === 'libro'">Usted ha comentado {{ getCantidadPorTipo('libro') }} libros</h3>
+    <h3 *ngIf="tipoResena === 'pelicula'">Usted ha comentado {{ getCantidadPorTipo('pelicula') }} películas</h3>
+
+
+
     <ng-container *ngFor="let resena of resenas">
+
       <ng-container *ngIf="resena.tipo === tipoResena">
         <div class="resena">
           <!-- Película -->
           <ng-container *ngIf="resena.tipo === 'pelicula'">
             <img [src]="'https://image.tmdb.org/t/p/w500' + resena.posterPath"
-                 alt="Póster de {{ resena.peliculaNombre }}" />
+              alt="Póster de {{ resena.peliculaNombre }}" />
             <p><strong>Película: </strong>{{ resena.peliculaNombre }}</p>
           </ng-container>
 
           <!-- Libro -->
           <ng-container *ngIf="resena.tipo === 'libro'">
-            <img *ngIf="resena.posterPath"
-                 [src]="resena.posterPath"
-                 alt="Portada de {{ resena.peliculaNombre }}" />
+            <img *ngIf="resena.posterPath" [src]="resena.posterPath" alt="Portada de {{ resena.peliculaNombre }}" />
             <p><strong>Libro: </strong>{{ resena.peliculaNombre }}</p>
             <p *ngIf="resena.autor"><strong>Autor: </strong>{{ resena.autor }}</p>
           </ng-container>
@@ -40,18 +44,21 @@
           <p><strong>Usted ha escrito:</strong> {{ resena.comentario }}</p>
           <small>Fecha de la reseña: {{ resena.fecha | date:'medium' }}</small>
 
-          <button (click)="editarResena(resena)">Editar</button>
-          <button (click)="eliminarResena(resena.id)">Eliminar</button>
+          <button class="edit" (click)="editarResena(resena)">Editar</button>
+          <button class="edit" (click)="eliminarResena(resena.id)">Eliminar</button>
 
           <!-- Modal de edición -->
           <div class="modal" *ngIf="resenaEditando?.id === resena.id">
             <div class="modal-content">
-              <h3>Editar reseña</h3>
-              <textarea [(ngModel)]="resenaEditando.comentario" rows="4"></textarea>
+              <h3>Editar comentario</h3>
+              <textarea #autoResize [(ngModel)]="resenaEditando.comentario" (input)="ajustarAltura(autoResize)" rows="3"
+                style="overflow:hidden; resize:none; min-height:2.5em; line-height:1.5;"></textarea>
+
+              <h3>Calificación</h3>
               <input type="number" [(ngModel)]="resenaEditando.calificacion" min="1" max="10" />
               <div class="modal-actions">
-                <button (click)="guardarEdicion()">Guardar</button>
-                <button (click)="cancelarEdicion()">Cancelar</button>
+                <button class="edit" (click)="guardarEdicion()">Guardar</button>
+                <button class="edit" (click)="cancelarEdicion()">Cancelar</button>
               </div>
             </div>
           </div>

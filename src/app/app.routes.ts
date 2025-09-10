@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
-import { authGuard } from './services/auth.gurd';
+import { authGuard } from './services/auth.guard';
 export const routes: Routes = [
  { path: '', redirectTo: 'login', pathMatch: 'full' },
 
