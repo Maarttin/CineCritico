@@ -25,10 +25,7 @@ export class Home {
   busqueda = false;
   resultadosCargados = false;
   busquedaManual = false;
-onBuscarClick() {
-  this.busquedaManual = true;
-  this.unifiedSearch();
-}
+
   constructor(
     private tmdb: Tmdb,
     private auth: AuthService,
@@ -40,10 +37,18 @@ onBuscarClick() {
     if (this.tmdb.peliculas.length > 0) {
       this.movies = this.tmdb.peliculas;
     }
+    this.clean();
   }
-  clean(){
+  onBuscarClick() {
+    this.busquedaManual = true;
+    this.unifiedSearch();
+  }
+  clean() {
     this.searchText = '';
-     this.tipoBusqueda = ''; 
+    this.tipoBusqueda = '';
+    this.books = [];
+    this.movies = [];
+    this.busqueda = false;
   }
   onTipoBusquedaChange() {
     if (this.searchText.trim()) {
@@ -55,15 +60,14 @@ onBuscarClick() {
     this.searchText = valor;
     if (!valor.trim()) {
       this.tipoBusqueda = ''; // Reinicia el tipo si el campo queda vacío
-      this.limpiarResultados();
-
-    }
-  }
-   limpiarResultados() {
       this.books = [];
       this.movies = [];
       this.busqueda = false;
+
     }
+  }
+
+
   unifiedSearch() {
 
     if (!this.searchText.trim()) {
@@ -75,7 +79,7 @@ onBuscarClick() {
       alert('Por favor selecciona si quieres buscar libros o películas.');
       return;
     }
-   
+
 
     this.busqueda = true;
     this.resultadosCargados = false;
@@ -110,9 +114,11 @@ onBuscarClick() {
   }
 
   async onLogout() {
+    
     try {
       await this.auth.logout();
       this.router.navigate(['/login']);
+         
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
     }
