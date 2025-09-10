@@ -1,24 +1,57 @@
 <div class="home-container">
   <header>
-    <button class="sesion" (click)="onLogout()">Cerrar sesión</button>
+    <h1>Crónicas de papel y pantalla</h1>
+    <div class="botonera">
+      <button class="resena" (click)="irAMisResenas()">Mis comentarios</button>
+      <button class="sesion" (click)="onLogout()">Cerrar sesión</button>
+    </div>
   </header>
 
+
+
+
   <section class="search">
-    <input #searchBox type="text" placeholder="Buscar película..." />
-    <button class="buscar" (click)="search(searchBox.value)">Buscar</button>
+    <input type="text" [(ngModel)]="searchText" (keyup.enter)="unifiedSearch()" placeholder="Buscar..." />
+    <label>
+      <input type="radio" name="tipoBusqueda" [value]="true" [(ngModel)]="isBookSearch" (change)="setSearchType('book')" /> Buscar libros
+    </label>
+    <label>
+      <input type="radio" name="tipoBusqueda" [value]="false" [(ngModel)]="isBookSearch" (change)="setSearchType('movie')" /> Buscar películas
+    </label>
+    <button class="buscar" (click)="unifiedSearch()">Buscar</button>
   </section>
 
-  <section class="results" *ngIf="movies.length > 0">
+  <section class="results" *ngIf="!isBookSearch && movies.length > 0">
     <div class="pelis" *ngFor="let movie of movies" class="movie-card">
       <h3>{{ movie.title }}</h3>
-      <button class="resena" (click)="irAResena(movie)">Reseñar</button>
-
+      <button class="resenar" (click)="irAResena(movie)">Comentar</button>
       <p>{{ movie.overview }}</p>
-      <img
-        *ngIf="movie.poster_path"
-        [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-        alt="{{ movie.title }}"
-      />
+      <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+        alt="{{ movie.title }}" />
     </div>
   </section>
+
+  <section class="results" *ngIf="isBookSearch && books?.length">
+    <div *ngFor="let book of books">
+      <h3>{{ book.volumeInfo?.title }}</h3>
+      <button class="resenar" (click)="irAResena(book)">Comentar</button>
+      <img *ngIf="book.volumeInfo?.imageLinks?.thumbnail" [src]="book.volumeInfo.imageLinks.thumbnail"
+        alt="Portada del libro" />
+
+      <p><strong>Autor: </strong> {{ book.volumeInfo?.authors?.join(', ') }}</p>
+
+      <p *ngIf="book.volumeInfo.description; else sinDescripcion"><strong>Descripción:</strong> {{
+        book.volumeInfo?.description }}</p>
+      <ng-template #sinDescripcion>
+        <p><em>No hay descripción disponible.</em></p>
+      </ng-template>
+
+      <p><strong>Fecha de publicación: </strong> <small>{{ book.volumeInfo?.publishedDate }}</small></p>
+      <p><a *ngIf="book.volumeInfo?.previewLink" [href]="book.volumeInfo.previewLink" target="_blank">
+          Vista previa
+        </a></p>
+    </div>
+  </section>
+
+
 </div>

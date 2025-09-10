@@ -44,44 +44,60 @@ export class Resena {
     });
   }
   autoResize(event: Event) {
-  const textarea = event.target as HTMLTextAreaElement;
-  textarea.style.height = 'auto'; // reset height
-  textarea.style.height = textarea.scrollHeight + 'px'; // set to content height
-}
-
-
-irAHome() {
-    this.router.navigate(['/home']);
-}
-
-
-  guardarResena() {
-      if (!this.authService.userId) {
-    this.message = 'Usuario no autenticado.';
-    return;
+    const textarea = event.target as HTMLTextAreaElement;
+    textarea.style.height = 'auto'; // reset height
+    textarea.style.height = textarea.scrollHeight + 'px'; // set to content height
   }
 
 
+  irAHome() {
+    this.router.navigate(['/home']);
+  }
+
+
+  guardarResena() {
+    if (!this.authService.userId) {
+      this.message = 'Usuario no autenticado.';
+      return;
+    }
+
     if (this.resenaForm.invalid || !this.authService.userId) return;
 
+    let tipo = 'pelicula';
+    let nombre = this.movie?.title || '';
+    let poster = this.movie?.poster_path || '';
+    let autor = '';
+    let id = this.peliculaId;
+
+    // Si es libro
+    if (this.movie?.volumeInfo) {
+      tipo = 'libro';
+      nombre = this.movie.volumeInfo.title || '';
+      poster = this.movie.volumeInfo.imageLinks?.thumbnail || '';
+      autor = this.movie.volumeInfo.authors?.join(', ') || '';
+      id = this.movie.id || '';
+    }
+
     const data = {
-      peliculaId: this.peliculaId,
+      peliculaId: id,
+      peliculaNombre: nombre,
+      autor: autor,
       comentario: this.resenaForm.value.comentario,
       calificacion: this.resenaForm.value.calificacion,
       usuarioId: this.authService.userId,
-      fecha: new Date().toISOString()
-
+      posterPath: poster,
+      fecha: new Date().toISOString(),
+      tipo: tipo
     };
-     console.log('Reseña a guardar:', data); 
-     console.log('Campos válidos:', Object.entries(data).every(([k, v]) => typeof v !== 'undefined' && v !== null));
-     this.reseñaService.guardarReseña(data).then(docRef => {
-    console.log('Reseña guardada con ID:', docRef.id);
-    this.message = '¡Reseña enviada correctamente!';
-    this.resenaForm.reset({ calificacion: 5 });
-  }).catch(error => {
-    console.error('Error al guardar reseña:', error); // ✅ Captura de errores
-    this.message = 'Error al guardar la reseña.';
-  });
-
+    console.log('Reseña a guardar:', data);
+    console.log('Campos válidos:', Object.entries(data).every(([k, v]) => typeof v !== 'undefined' && v !== null));
+    this.reseñaService.guardarReseña(data).then(docRef => {
+      console.log('Reseña guardada con ID:', docRef.id);
+      this.message = '¡Reseña enviada correctamente!';
+      this.resenaForm.reset({ calificacion: 5 });
+    }).catch(error => {
+      console.error('Error al guardar reseña:', error);
+      this.message = 'Error al guardar la reseña.';
+    });
   }
 }

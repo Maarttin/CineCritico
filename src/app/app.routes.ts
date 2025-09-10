@@ -21,6 +21,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./components/resena/resena').then(m => m.Resena),
     canActivate: [authGuard]
+  },
+  {
+    path:'misresenas',
+    loadComponent: () => import('./components/misresenas/misresenas').then(m => m.Misresenas),
+    canActivate: [authGuard]
   }
 
    

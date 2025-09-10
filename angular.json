@@ -12,23 +12,24 @@
       "architect": {
         "build": {
           "builder": "@angular/build:application",
-          "options": {           
+          "options": {  
+            "outputPath": "dist/cinecritico",         
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": [
+              "src/404.html",
               {
                 "glob": "**/*",
                 "input": "public"
+                
               }
             ],
             "styles": [
               "src/styles.css"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+            ]
+            
+           
+           
           },
           "configurations": {
             "production": {

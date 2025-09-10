@@ -1,0 +1,67 @@
+
+<h2>Mis comentarios</h2>
+<button class="volver" (click)="irAHome()">Volver</button>
+<!-- Selector de tipo de reseña -->
+<div class="filtros">
+  <label>
+    <input type="radio" name="tipoResena" [(ngModel)]="tipoResena" value="libro" />
+    Libros
+  </label>
+  <label>
+    <input type="radio" name="tipoResena" [(ngModel)]="tipoResena" value="pelicula" />
+    Películas
+  </label>
+</div>
+
+<!-- Lista de reseñas -->
+<div class="resenas" *ngIf="resenas$ | async as resenas">
+  <ng-container *ngIf="resenas.length > 0; else sinResenas">
+    <ng-container *ngFor="let resena of resenas">
+      <ng-container *ngIf="resena.tipo === tipoResena">
+        <div class="resena">
+          <!-- Película -->
+          <ng-container *ngIf="resena.tipo === 'pelicula'">
+            <img [src]="'https://image.tmdb.org/t/p/w500' + resena.posterPath"
+                 alt="Póster de {{ resena.peliculaNombre }}" />
+            <p><strong>Película: </strong>{{ resena.peliculaNombre }}</p>
+          </ng-container>
+
+          <!-- Libro -->
+          <ng-container *ngIf="resena.tipo === 'libro'">
+            <img *ngIf="resena.posterPath"
+                 [src]="resena.posterPath"
+                 alt="Portada de {{ resena.peliculaNombre }}" />
+            <p><strong>Libro: </strong>{{ resena.peliculaNombre }}</p>
+            <p *ngIf="resena.autor"><strong>Autor: </strong>{{ resena.autor }}</p>
+          </ng-container>
+
+          <!-- Común a ambos -->
+          <p><strong>Calificación: </strong>{{ resena.calificacion }}/10</p>
+          <p><strong>Usted ha escrito:</strong> {{ resena.comentario }}</p>
+          <small>Fecha de la reseña: {{ resena.fecha | date:'medium' }}</small>
+
+          <button (click)="editarResena(resena)">Editar</button>
+          <button (click)="eliminarResena(resena.id)">Eliminar</button>
+
+          <!-- Modal de edición -->
+          <div class="modal" *ngIf="resenaEditando?.id === resena.id">
+            <div class="modal-content">
+              <h3>Editar reseña</h3>
+              <textarea [(ngModel)]="resenaEditando.comentario" rows="4"></textarea>
+              <input type="number" [(ngModel)]="resenaEditando.calificacion" min="1" max="10" />
+              <div class="modal-actions">
+                <button (click)="guardarEdicion()">Guardar</button>
+                <button (click)="cancelarEdicion()">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+
+  <!-- Mensaje si no hay reseñas -->
+  <ng-template #sinResenas>
+    <p>No hay reseñas disponibles.</p>
+  </ng-template>
+</div>

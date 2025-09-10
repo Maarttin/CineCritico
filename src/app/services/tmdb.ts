@@ -7,6 +7,8 @@ import { environment } from '../environments/enviroment';
   providedIn: 'root'
 })
 export class Tmdb {
+  peliculas: any[] = [];
+  query: string = '';
   private baseUrl = 'https://api.themoviedb.org/3';
 
   constructor(private http: HttpClient) { }

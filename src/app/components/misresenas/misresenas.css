@@ -1,0 +1,74 @@
+/* Para que nada se desborde en móvil */
+*, *::before, *::after { box-sizing: border-box; }
+
+:host { display: block; padding: 1rem; }
+
+h2 {
+  text-align: center;
+  margin: 0 0 1rem;
+  font-size: 1.4rem;
+}
+
+.volver {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: .5rem .9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f7f7f7;
+  cursor: pointer;
+}
+
+.resenas {
+  width: 100%;
+  max-width: 700px;  /* limita el ancho en desktop */
+  margin: 0 auto;
+}
+
+/* Cada reseña (sin “card”) */
+.resena {
+  width: 100%;
+  padding: .75rem 0;
+  border-bottom: 1px solid #eaeaea;
+}
+
+
+
+.resena p {
+  margin: .25rem 0;
+  color: #333;
+  overflow-wrap: anywhere;   /* evita cortes por palabras largas */
+  word-break: break-word;
+}
+
+.resena small {
+  display: block;
+  margin-top: .25rem;
+  color: #666;
+  font-size: .85rem;
+}
+
+
+
+
+.empty {
+  text-align: center;
+  color: #666;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+
+@media (max-width: 480px) {
+  :host { padding: .75rem; }
+  h2 { font-size: 1.2rem; }
+}
+img {
+  display: block;
+  margin: 0 auto;
+  width: 160px;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-top: 1rem;
+}

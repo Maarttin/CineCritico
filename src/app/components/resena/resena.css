@@ -1,36 +1,81 @@
-h2,h3{
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+.tarjeta {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: Arial, sans-serif;
+  background: #fafafa;
 }
-
 img{
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 60%;
-    border-radius: 10px;
-    margin-bottom: 20px;
-}
-label{
-    display: block;
-}
-
-.resena{
-    display: block;
     margin: 0 auto;
-    border-radius: 4px;
-    padding: 10px;
-    color:antiquewhite;
-    background-color:#000;
+    width: 50%;
+    border-radius: 8px;
+    margin-top: 1rem;
 }
 
-textarea{
-    width: 90%;
-    padding: 10px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    font-size: 16px;
-    resize: vertical;
+.tarjeta h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.volver {
+  margin-bottom: 1rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.tarjeta h3 {
+  margin: 0.5rem 0;
+}
+
+.tarjeta img {
+  max-width: 100%;
+  border-radius: 6px;
+  margin: 0.5rem 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+label {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+textarea,
+input[type="number"] {
+  padding: 0.5rem;
+  border: 1px solid #bbb;
+  border-radius: 6px;
+  font-size: 0.95rem;
+}
+
+.resena {
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.resena:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+.tarjeta p[ng-reflect-ng-if] {
+  margin-top: 1rem;
+  color: green;
+  text-align: center;
 }

@@ -1,25 +1,8 @@
-.home-container {
-    max-width: 800px;
-    margin: 0 auto;    
-    font-family: Arial, sans-serif;
-    background-color: #f0f4ff;
-    min-height: 100vh;
-}
-.sesion {
-    display: block;
-    margin-left: auto;
-    margin-right: 0;
-    margin-bottom: 1rem;
-    background-color: #770808;
-    color:antiquewhite;
-    border-radius: 4px;
-    height: 30px;
-}
 
 
 input{
   display: block;
-  width: 300px;
+  width: 90%;
   height: 25px;;
   margin: 0 auto;
   margin-bottom: 1rem;
@@ -39,26 +22,58 @@ input{
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+h1{
+    text-align: center;
+    font-size: 2rem;
+    padding-bottom: 1px;
+}
 h3{
     text-align: center;
     font-size: 2rem;
     padding-top: 30px;
 }
-
-.resena {
-    display: block;
-    margin-left: auto;
-    margin-right: 350px;
+.resenar {
+    display: row;
+    margin-left: 0;
+    margin-right: auto;
     background-color: #0d47a1;
     color:white;
     border-color:#fff;
-    padding: 0.75rem 1.5rem;
+    margin-bottom: 1rem;
     font-size: 1rem;
-    border-radius: 8px;
+    height: 30px;;
+    border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
 
+
+.botonera {
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.botonera button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+  background-color: #007bff;
+}
+
+.izquierda {
+  
+  background-color: #ccc;
+  color: #333;
+}
+
+.derecha {
+  background-color: #007bff;
+  color: white;
+}
 img{
     display: block;
     margin: 0 auto;
@@ -81,6 +96,7 @@ p{
     width: 90%;
     font-size: 1.2rem;
   }
+ 
 }
 
 
@@ -97,4 +113,16 @@ p{
     width: 50%;
     font-size: 2rem;
   }
+}
+.search {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Espacio entre elementos */
+  flex-wrap: wrap; /* Por si se reduce el ancho */
+}
+
+.search label {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem; /* Espacio entre checkbox y texto */
 }
