@@ -8,53 +8,79 @@
   </header>
 
   <section class="search">
-    <input type="text" [(ngModel)]="searchText" (keyup.enter)="unifiedSearch()" placeholder="Buscar..." />
-    <label>
-      <input type="radio" name="tipoBusqueda" [value]="true" [(ngModel)]="isBookSearch" (change)="setSearchType('book')" /> Buscar libros
-    </label>
-    <label>
-      <input type="radio" name="tipoBusqueda" [value]="false" [(ngModel)]="isBookSearch" (change)="setSearchType('movie')" /> Buscar películas
-    </label>
-    <button class="buscar" (click)="unifiedSearch()">Buscar</button>
-  </section>
+    <div class="search-box">
+      <input class="entrada" type="text" [(ngModel)]="searchText" (keyup.enter)="unifiedSearch()"  (ngModelChange)="onSearchTextChange($event)"
 
-  <section class="results" *ngIf="!isBookSearch && movies.length > 0">
-    <div class="pelis" *ngFor="let movie of movies" class="movie-card">
-      <h3>{{ movie.title }}</h3>
-      <button class="resenar" (click)="irAResena(movie)">Comentar</button>
-      <p *ngIf="movie.overview; else sinSinopsis"><strong>Sinopsis:
-      </strong>{{ movie.overview }}</p>
-
-      <ng-template #sinSinopsis>
-        <p><em>No hay sinopsis disponible.</em></p>
-      </ng-template>
-
-      <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
-        alt="{{ movie.title }}" />
+        placeholder="Buscar..." />
+           <button class="clean" (click)="clean()">Borrar</button>
     </div>
-  </section>
-
-  <section class="results" *ngIf="isBookSearch && books?.length">
-    <div *ngFor="let book of books">
-      <h3>{{ book.volumeInfo?.title }}</h3>
-      <button class="resenar" (click)="irAResena(book)">Comentar</button>
-      <img *ngIf="book.volumeInfo?.imageLinks?.thumbnail" [src]="book.volumeInfo.imageLinks.thumbnail"
-        alt="Portada del libro" />
-
-      <p><strong>Autor: </strong> {{ book.volumeInfo?.authors?.join(', ') }}</p>
-
-      <p *ngIf="book.volumeInfo.description; else sinDescripcion"><strong>Descripción:</strong> {{
-        book.volumeInfo?.description }}</p>
-
-      <ng-template #sinDescripcion>
-        <p><em>No hay descripción disponible.</em></p>
-      </ng-template>      
-
-      <p><strong>Fecha de publicación: </strong> <small>{{ book.volumeInfo?.publishedDate }}</small></p>
-      <p><a *ngIf="book.volumeInfo?.previewLink" [href]="book.volumeInfo.previewLink" target="_blank">
-          Vista previa
-        </a></p>
+    <div class="search-radios">
+      <label>
+        <input type="radio" name="tipoBusqueda" value="libro" [(ngModel)]="tipoBusqueda"
+          (ngModelChange)="onTipoBusquedaChange()" [disabled]="!searchText.trim()" />
+        Libros
+      </label>
+      <label>
+        <input type="radio" name="tipoBusqueda" value="pelicula" [(ngModel)]="tipoBusqueda"
+          (ngModelChange)="onTipoBusquedaChange()" [disabled]="!searchText.trim()" />
+        Películas
+      </label>
     </div>
+    <button class="buscar" (click)="onBuscarClick()">Buscar</button>
+ 
   </section>
-  
+
+  <ng-container *ngIf="busqueda">
+    <section class="results" *ngIf="tipoBusqueda === 'pelicula'">
+      <ng-container *ngIf="movies.length > 0">
+        <div class="pelis" *ngFor="let movie of movies" class="movie-card">
+          <h3>{{ movie.title }}</h3>
+          <button class="resenar" (click)="irAResena(movie)">Comentar</button>
+          <img *ngIf="movie.poster_path" [src]="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+            alt="{{ movie.title }}" />
+          <p *ngIf="movie.overview; else sinSinopsis"><strong>Sinopsis:
+            </strong>{{ movie.overview }}</p>
+          <br>
+          <p><strong>Fecha de lanzamiento: <small>{{movie.release_date}}</small></strong></p>
+          <ng-template #sinSinopsis>
+            <p><em>No hay sinopsis disponible.</em></p>
+          </ng-template>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="busquedaManual && movies.length === 0">
+        <p>No se encontraron películas que coincidan con tu búsqueda.</p>
+      </ng-container>
+    </section>
+  </ng-container>
+
+  <ng-container *ngIf="busqueda">
+
+    <section class="results" *ngIf="tipoBusqueda === 'libro'">
+      <ng-container *ngIf="books.length > 0">
+        <div *ngFor="let book of books">
+          <h3>{{ book.volumeInfo?.title }}</h3>
+          <button class="resenar" (click)="irAResena(book)">Comentar</button>
+          <img *ngIf="book.volumeInfo?.imageLinks?.thumbnail" [src]="book.volumeInfo.imageLinks.thumbnail"
+            alt="Portada del libro" />
+          <p><strong>Autor: </strong> {{ book.volumeInfo?.authors?.join(', ') }}</p>
+          <br>
+          <p *ngIf="book.volumeInfo.description; else sinDescripcion"><strong>Descripción:</strong> {{
+            book.volumeInfo?.description }}</p>
+          <ng-template #sinDescripcion>
+            <p><em>No hay descripción disponible.</em></p>
+          </ng-template>
+          <br>
+          <p><strong>Fecha de publicación: </strong> <small>{{ book.volumeInfo?.publishedDate }}</small></p>
+          <br>
+          <p><a *ngIf="book.volumeInfo?.previewLink" [href]="book.volumeInfo.previewLink" target="_blank">
+              Vista previa
+            </a></p>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="busquedaManual && books.length === 0">
+        <p>No se encontraron libros que coincidan con tu búsqueda.</p>
+      </ng-container>
+    </section>
+  </ng-container>
+
 </div>

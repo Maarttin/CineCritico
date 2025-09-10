@@ -13,6 +13,7 @@ export class Tmdb {
 
   constructor(private http: HttpClient) { }
   searchMovies(query: string) {
+    console.log('Buscando películas con la consulta:', query);
     return this.http.get(`${this.baseUrl}/search/movie`, {
       params: {
         api_key: environment.tmdbApiKey,
@@ -26,5 +27,6 @@ export class Tmdb {
         api_key: environment.tmdbApiKey
       }
     });
+    
   }
 }
